@@ -72,27 +72,38 @@ if [ -n "${BASH_VERSION}" ]; then
         local original_prompt=$PS1
 
 
-        # foreground
-        local black='\e[0;30m'
-        local red='\e[0;31m'
-        local green='\e[0;32m'
-        local yellow='\e[0;33m'
-        local blue='\e[0;34m'
-        local purple='\e[0;35m'
-        local cyan='\e[0;36m'
-        local white='\e[0;37m'
+        # formatting
+        local bold='\[\e[1m\]'
+        local underlined='\[\e[4m\]'
+        local dim='\[\e[2m\]'
 
-        #background
-        local background_black='\e[40m'
-        local background_red='\e[41m'
-        local background_green='\e[42m'
-        local background_yellow='\e[43m'
-        local background_blue='\e[44m'
-        local background_purple='\e[45m'
-        local background_cyan='\e[46m'
-        local background_white='\e[47m'
-        
-        local reset='\e[0m'     # Text Reset]'
+        # foreground
+        local black='\[\e[30m\]'
+        local red='\[\e[31m\]'
+        local green='\[\e[32m\]'
+        local yellow='\[\e[33m\]'
+        local blue='\[\e[34m\]'
+        local purple='\[\e[35m\]'
+        local cyan='\[\e[36m\]'
+        local gray='\[\e[37m\]'
+        local darkgray='\[\e[90m\]'
+        local white='\[\e[97m\]'
+        local lightblue='\[\e[94m\]'
+
+        # background
+        local background_black='\[\e[40m\]'
+        local background_red='\[\e[41m\]'
+        local background_green='\[\e[42m\]'
+        local background_yellow='\[\e[43m\]'
+        local background_blue='\[\e[44m\]'
+        local background_purple='\[\e[45m\]'
+        local background_cyan='\[\e[46m\]'
+        local background_gray='\[\e[47m\]'
+        local background_darkgray='\[\e[100m\]'
+        local background_white='\[\e[107m\]'
+        local background_lightblue='\[\e[104m\]'
+
+        local reset='\[\e[0;0m\]'     # reset all formatting
 
         local black_on_white="${black}${background_white}"
         local yellow_on_white="${yellow}${background_white}"
@@ -104,6 +115,10 @@ if [ -n "${BASH_VERSION}" ]; then
         local white_on_green="${white}${background_green}"
         local black_on_green="${black}${background_green}"
         local green_on_white="${green}${background_white}"
+        local darkgray_on_white="${darkgray}${background_white}"
+        local black_on_lightblue="${black}${background_lightblue}"
+        local black_on_blue="${black}${background_blue}"
+        local white_on_blue="${white}${background_blue}"
 
 
         # Flags
@@ -159,7 +174,7 @@ if [ -n "${BASH_VERSION}" ]; then
                         fi
                         
                     fi
-                    prompt+=$(enrich_append true "(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})" "${black_on_green}")
+                    prompt+=$(enrich_append true "(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})" "${black_on_green}${bold}")
                 fi
             fi
             prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${black_on_green}")
@@ -174,7 +189,7 @@ if [ -n "${BASH_VERSION}" ]; then
         echo "${prompt}"
     }
     
-    PS2="${yellow}→${reset} "
+    PS2="${yellow}  →${reset} "
 
     function bash_prompt() {
         PS1="$(build_prompt)"
